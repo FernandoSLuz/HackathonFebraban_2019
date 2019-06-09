@@ -1,4 +1,9 @@
 const SHA256 = require('crypto-js/sha256')
+const express = require('express');
+const mongoose = require('mongoose');
+
+
+const app = express();
 
 class Block {
     constructor(index, timestamp, data, previousHash) {
@@ -51,7 +56,6 @@ class Blockchain{
                 return false;
             }
         }
-
         return true;
     }
 }
@@ -59,7 +63,12 @@ class Blockchain{
 let jsChain = new Blockchain();
 jsChain.addBlock(new Block("12/25/2017", {amount: 5}));
 jsChain.addBlock(new Block("12/26/2017", {amount: 10}));
+jsChain.valid = true;
 
 
-console.log(JSON.stringify(jsChain, null, 4));
-console.log("Is blockchain valid? " + jsChain.checkValid());
+
+app.get('/', (req,res) => {
+  //res.send(JSON.stringify(jsChain, null, 4) + "\n" + "Is blockchain valid? " + jsChain.checkValid());
+  res.send((jsChain));
+});
+app.listen(1133);
